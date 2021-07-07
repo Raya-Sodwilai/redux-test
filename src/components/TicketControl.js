@@ -6,7 +6,6 @@ import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import * as a from './../actions';
-import { withFirestore } from 'react-redux-firebase';
 import { withFirestore, isLoaded } from 'react-redux-firebase';
 
 class TicketControl extends React.Component {
@@ -74,12 +73,12 @@ class TicketControl extends React.Component {
     this.setState({editing: true});
   }
 
-  handleEditingTicketInList = () => {
-    this.setState({
-      editing: false,
-      selectedTicket: null
-    });
-  }
+  // handleEditingTicketInList = () => {
+  //   this.setState({
+  //     editing: false,
+  //     selectedTicket: null
+  //   });
+  // }
 
   handleDeletingTicket = (id) => {
     this.props.firestore.delete({collection: 'tickets', doc: id});
@@ -87,6 +86,8 @@ class TicketControl extends React.Component {
   }
 
   render(){
+    let currentlyVisibleState = null;
+    let buttonText = null;
     const auth = this.props.firebase.auth();
     if (!isLoaded(auth)) {
       return (
@@ -103,9 +104,6 @@ class TicketControl extends React.Component {
       )
     }
     if ((isLoaded(auth)) && (auth.currentUser != null )) {
-    let currentlyVisibleState = null;
-    let buttonText = null;
-    if (this.state.editing ) {      
       currentlyVisibleState = <EditTicketForm ticket = {this.state.selectedTicket} onEditTicket = {this.handleEditingTicketInList} />
       buttonText = "Return to Ticket List";
     } else if (this.state.selectedTicket != null) {
@@ -129,7 +127,6 @@ class TicketControl extends React.Component {
       </React.Fragment>
     );
   }
-
 }
 
 TicketControl.propTypes = {

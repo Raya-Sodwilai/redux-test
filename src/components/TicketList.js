@@ -29,9 +29,9 @@ function TicketList(props){
     );
   } else {
     return (
-      <react.Fragment>
+      <React.Fragment>
         <h3>Loading...</h3>
-      </react.Fragment>
+      </React.Fragment>
     )
   }
 }
